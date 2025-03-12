@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>eLibrary - Librarian Dashboard</title>
+  <link rel="stylesheet" href="../CSS/style.css">
+  <link rel="stylesheet" href="../CSS/librarian.css">
+</head>
+<body>
+  <nav class="navbar">
+    <h1>eLibrary</h1>
+    <ul>
+      <li><a href="#">Home</a></li>
+      <li><a href="#">Manage Books</a></li>
+      <li><a href="#">Approve Requests</a></li>
+      <li><a href="#">Search Books</a></li>
+    </ul>
+  </nav>
+
+  <section class="book-management">
+    <h2>Manage Books</h2>
+    <form id="book-form">
+      <input type="text" placeholder="Book Title" required>
+      <input type="text" placeholder="Author" required>
+      <button type="submit">Add Book</button>
+    </form>
+  </section>
+
+  <section class="request-queue">
+    <h2>Borrow Requests</h2>
+    <ul>
+      <li>
+        The Catcher in the Rye - John Doe
+        <button onclick="approveRequest('The Catcher in the Rye', 'John Doe')">Approve</button>
+      </li>
+      <li>
+        Pride and Prejudice - Jane Smith
+        <button onclick="approveRequest('Pride and Prejudice', 'Jane Smith')">Approve</button>
+      </li>
+    </ul>
+  </section>
+
+  <section class="book-search">
+    <h2>Search Books</h2>
+    <input type="text" id="search-bar" placeholder="Enter book title...">
+    <button onclick="searchBooks()">Search</button>
+  </section>
+
+  <script src="ts/librarian.ts" type="module"></script>
+</body>
+</html>

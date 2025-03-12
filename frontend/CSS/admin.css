@@ -1,0 +1,28 @@
+.book-management, .user-management, .librarian-management {
+    margin: 20px auto;
+    width: 80%;
+    background: #fff;
+    padding: 15px;
+    box-shadow: 0 0 5px #aaa;
+  }
+  
+  form {
+    display: flex;
+    gap: 10px;
+  }
+  
+  input[type="text"] {
+    flex: 1;
+    padding: 8px;
+  }
+  
+  ul {
+    list-style: none;
+  }
+  
+  li {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 0;
+  }
+  

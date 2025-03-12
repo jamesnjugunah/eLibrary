@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>eLibrary - Borrower Dashboard</title>
+  <link rel="stylesheet" href="../CSS/style.css">
+  <link rel="stylesheet" href="../CSS/borrower.css">
+</head>
+<body>
+  <nav class="navbar">
+    <h1>eLibrary</h1>
+    <ul>
+      <li><a href="#">Home</a></li>
+      <li><a href="#">Books</a></li>
+      <li><a href="#">My Requests</a></li>
+      <li><a href="#">Return Book</a></li>
+    </ul>
+  </nav>
+
+  <section class="book-search">
+    <h2>Search for a Book</h2>
+    <input type="text" id="search-bar" placeholder="Enter book title or author...">
+    <button onclick="searchBooks()">Search</button>
+  </section>
+
+  <section class="book-list">
+    <h2>Available Books</h2>
+    <ul id="book-list">
+      <li>The Great Gatsby <button onclick="requestBook('The Great Gatsby')">Request</button></li>
+      <li>1984 <button onclick="requestBook('1984')">Request</button></li>
+      <li>To Kill a Mockingbird <button onclick="requestBook('To Kill a Mockingbird')">Request</button></li>
+    </ul>
+  </section>
+
+  <section class="status">
+    <h2>My Requests</h2>
+    <p>No pending requests.</p>
+  </section>
+
+  <script src="ts/borrower.ts" type="module"></script>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>eLibrary - Admin Dashboard</title>
+  <link rel="stylesheet" href="../CSS/style.css">
+  <link rel="stylesheet" href="../CSS/admin.css">
+</head>
+<body>
+  <nav class="navbar">
+    <h1>eLibrary</h1>
+    <ul>
+      <li><a href="#">Home</a></li>
+      <li><a href="#">Manage Books</a></li>
+      <li><a href="#">Manage Users</a></li>
+      <li><a href="#">Manage Librarians</a></li>
+    </ul>
+  </nav>
+
+  <section class="book-management">
+    <h2>Manage Books</h2>
+    <form id="book-form">
+      <input type="text" placeholder="Book Title" required>
+      <input type="text" placeholder="Author" required>
+      <button type="submit">Add Book</button>
+    </form>
+    <ul>
+      <li>
+        War and Peace <button onclick="editBook('War and Peace')">Edit</button>
+        <button onclick="deleteBook('War and Peace')">Delete</button>
+      </li>
+      <li>
+        The Odyssey <button onclick="editBook('The Odyssey')">Edit</button>
+        <button onclick="deleteBook('The Odyssey')">Delete</button>
+      </li>
+    </ul>
+  </section>
+
+  <section class="user-management">
+    <h2>Manage Users</h2>
+    <form id="user-form">
+      <input type="text" placeholder="Username" required>
+      <button type="submit">Add User</button>
+    </form>
+    <ul>
+      <li>JohnDoe <button onclick="removeUser('JohnDoe')">Remove</button></li>
+      <li>JaneSmith <button onclick="removeUser('JaneSmith')">Remove</button></li>
+    </ul>
+  </section>
+
+  <section class="librarian-management">
+    <h2>Manage Librarians</h2>
+    <form id="librarian-form">
+      <input type="text" placeholder="Librarian Name" required>
+      <button type="submit">Add Librarian</button>
+    </form>
+    <ul>
+      <li>LibbyJones <button onclick="removeLibrarian('LibbyJones')">Remove</button></li>
+    </ul>
+  </section>
+
+  <script src="ts/admin.ts" type="module"></script>
+</body>
+</html>
