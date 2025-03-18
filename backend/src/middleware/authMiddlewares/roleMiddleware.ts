@@ -17,6 +17,6 @@ export const roleGuard = (allowedRoles: string[]) =>
 
 // Specific guards
 export const adminGuard = roleGuard(["Admin"]);         // Full app control
-export const organizerGuard = roleGuard(["Organizer"]); // Event creation & management
-export const attendeeGuard = roleGuard(["Attendee"]);   // Attendee-only actions
+export const organizerGuard = roleGuard(["librarian"]); // Event creation & management
+export const attendeeGuard = roleGuard(["Borrower"]);   // Attendee-only actions
 

@@ -1,27 +1,45 @@
-import { UserRequest } from "./usersTypes";
 
-/**
- * Event type defining structure of an event record in PostgreSQL
- */
-export interface Event {
-  id: number;
-  user_id: number; // Foreign key from users table
+import { Request } from 'express';
+export interface Book {
+  book_id: number;
   title: string;
-  location: string;
-  date: Date;
-  price: number;
+  author: string;
+  genre?: string;
+  year?: number;
+  pages?: number;
+  publisher?: string;
+  description?: string;
+  price?: number;
+  total_copies: number;
+  available_copies: number;
   created_at?: Date;
   updated_at?: Date;
 }
 
+export interface BookCopy {
+  copy_id: number;
+  book_id: number; // Foreign key from Books
+  inventory_number: string;
+  condition?: string;
+  status: "Available" | "Borrowed";
+  location?: string;
+  created_at?: Date;
+  updated_at?: Date;
+}
 
-/**
- * Custom Express Request Type for event-related middleware
- * This extends `UserRequest` so that `req.user` is available
- */
-export interface EventRequest extends UserRequest {
-  params: {
-    id: string; // Ensures `req.params.id` always exists
+export interface BookRequest extends Request {
+  user?: {
+      role_name: string;
+      id: string;
   };
-  event?: Event;
+  event?: {
+      id: string;
+      user_id: string;
+      title: string;
+      location: string;
+      date: string;
+      price: number;
+      created_at: Date;
+      updated_at: Date;
+  };
 }

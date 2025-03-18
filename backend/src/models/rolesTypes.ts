@@ -1,7 +1,9 @@
-export interface roleTypes {
-    role_id: number;
-    role_name: string;
+import { Request } from "express";
+export interface UserRole {
+  role_id: number; // Primary Key
+  role_name: "Admin" | "Librarian" | "Borrower"; // Unique role names
 }
+
 
 
 export interface RoleRequest extends Request {

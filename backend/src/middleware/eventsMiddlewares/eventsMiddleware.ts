@@ -1,10 +1,10 @@
-import { Response, NextFunction } from "express";
+import { Response, Request, NextFunction } from "express";
 import asyncHandler from "../asyncHandler";
 import pool from "../../config/db.config";
-import { EventRequest } from "../../models/booksTypes";
+import { BookRequest } from "../../models/booksTypes";
 
 // Ensures user can only modify their own events
-export const eventOwnerGuard = asyncHandler<void, EventRequest>(async (req, res, next) => {
+export const eventOwnerGuard = asyncHandler<void, BookRequest>(async (req: BookRequest, res: Response, next: NextFunction) => {
     const { id: eventId } = req.params;
 
     if (!req.user) {
@@ -12,9 +12,11 @@ export const eventOwnerGuard = asyncHandler<void, EventRequest>(async (req, res,
         return;
     }
 
-    // Check if the user is the owner of the event
+    // Retrieve full event details
     const eventQuery = await pool.query(
-        "SELECT user_id FROM events WHERE id = $1",
+        `SELECT id, user_id, title, location, date, price, created_at, updated_at
+         FROM events 
+         WHERE id = $1`,
         [eventId]
     );
 
@@ -23,23 +25,16 @@ export const eventOwnerGuard = asyncHandler<void, EventRequest>(async (req, res,
         return;
     }
 
-    if (eventQuery.rows[0].user_id !== req.user.id) {
+    const event = eventQuery.rows[0];
+
+    // Check if the user is the owner of the event
+    if (event.user_id !== req.user.id) {
         res.status(403).json({ message: "Not authorized to edit this event" });
         return;
     }
 
     // Attach event details to request
-    req.event = {
-        id: eventQuery.rows[0].id,
-        user_id: eventQuery.rows[0].user_id,
-        title: eventQuery.rows[0].title,
-        location: eventQuery.rows[0].location,
-        date: eventQuery.rows[0].date,
-        price: eventQuery.rows[0].price,
-        created_at: eventQuery.rows[0].created_at,
-        updated_at: eventQuery.rows[0].updated_at
-    };
+    req.event = event;
 
     next();
 });
-

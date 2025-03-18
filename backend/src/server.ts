@@ -1,10 +1,12 @@
+import { setupAliases } from "import-aliases";
+setupAliases()
 import express, { Request, Response } from "express";
 import dotenv from "dotenv";
 import cors from "cors";
-import userRoutes from "./routes/usersRoutes";
-import bookRoutes from "./routes/booksRoutes"; 
-import authRoutes from "./routes/authroutes";
-import borrowRoutes from "./routes/borrowRoutes";
+import userRoutes from "@app/routes/usersRoutes";
+import bookRoutes from "@app/routes/booksRoutes"; 
+import authRoutes from "@app/routes/authroutes";
+import borrowRoutes from "@app/routes/borrowRoutes";
 
 dotenv.config();
 const app = express();
