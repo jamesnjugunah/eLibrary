@@ -4,7 +4,7 @@ import { Response } from 'express';
 
 dotenv.config();
 
-export const generateToken = (res: Response, userId: number, roleId:number) => {
+export const generateToken = (res: Response, user_id: number, role_id:number) => {
     const jwtSecret = process.env.JWT_SECRET;
     const refreshSecret = process.env.REFRESH_TOKEN_SECRET;
 
@@ -13,8 +13,8 @@ export const generateToken = (res: Response, userId: number, roleId:number) => {
 
     }
     try {
-        const accessToken = jwt.sign({userId, roleId}, jwtSecret,{expiresIn: "15m"});
-        const refreshToken = jwt.sign({userId}, refreshSecret,{expiresIn: "30d"});
+        const accessToken = jwt.sign({user_id, role_id}, jwtSecret,{expiresIn: "15m"});
+        const refreshToken = jwt.sign({user_id}, refreshSecret,{expiresIn: "30d"});
 
 
         res.cookie("access_token", accessToken, {
