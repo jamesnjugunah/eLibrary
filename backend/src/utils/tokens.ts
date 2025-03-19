@@ -13,7 +13,7 @@ export const generateToken = (res: Response, user_id: number, role_id:number) =>
 
     }
     try {
-        const accessToken = jwt.sign({user_id, role_id}, jwtSecret,{expiresIn: "15m"});
+        const accessToken = jwt.sign({user_id, role_id}, jwtSecret,{expiresIn: "1d"});
         const refreshToken = jwt.sign({user_id}, refreshSecret,{expiresIn: "30d"});
 
 

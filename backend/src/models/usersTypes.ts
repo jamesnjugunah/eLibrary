@@ -14,7 +14,7 @@ export interface UserRole {
   
   export interface UserRequest extends Request {
     user?: {
-        user_id: string;
+        user_id: number;
         name: string;
         email: string;
         role_id: number;

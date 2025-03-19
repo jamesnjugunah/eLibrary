@@ -1,52 +1,452 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>eLibrary - Librarian Dashboard</title>
-  <link rel="stylesheet" href="../CSS/style.css">
-  <link rel="stylesheet" href="../CSS/librarian.css">
-</head>
-<body>
-  <nav class="navbar">
-    <h1>eLibrary</h1>
-    <ul>
-      <li><a href="#">Home</a></li>
-      <li><a href="#">Manage Books</a></li>
-      <li><a href="#">Approve Requests</a></li>
-      <li><a href="#">Search Books</a></li>
-    </ul>
-  </nav>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>eLibrary - Librarian Dashboard</title>
+    <link rel="stylesheet" href="../CSS/style.css" />
+    <link rel="stylesheet" href="../CSS/librarian.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <!-- Top Navigation Bar -->
+    <nav class="navbar">
+      <div class="navbar-brand">
+        <h1>eLibrary</h1>
+      </div>
+      <div class="search-container">
+        <input
+          type="text"
+          id="global-search"
+          placeholder="Search books, users, requests..."
+        />
+        <button><i class="fas fa-search"></i></button>
+      </div>
+      <div class="navbar-right">
+        <span class="librarian-name">Welcome, Librarian</span>
+        <a href="#" class="logout-btn"
+          ><i class="fas fa-sign-out-alt"></i> Logout</a
+        >
+      </div>
+    </nav>
 
-  <section class="book-management">
-    <h2>Manage Books</h2>
-    <form id="book-form">
-      <input type="text" placeholder="Book Title" required>
-      <input type="text" placeholder="Author" required>
-      <button type="submit">Add Book</button>
-    </form>
-  </section>
+    <div class="dashboard-container">
+      <!-- Left Side Panel -->
+      <aside class="sidebar">
+        <div class="sidebar-header">
+          <h3>Librarian Panel</h3>
+        </div>
+        <ul class="sidebar-menu">
+          <li class="active" data-panel="manage-books">
+            <i class="fas fa-book"></i> Manage Books
+          </li>
+          <li data-panel="borrow-requests">
+            <i class="fas fa-clipboard-list"></i> Borrowing Requests
+            <span class="notification-badge">2</span>
+          </li>
+          <li data-panel="manage-users">
+            <i class="fas fa-users"></i> Manage Users
+          </li>
+          <li data-panel="reports"><i class="fas fa-chart-bar"></i> Reports</li>
+          <li data-panel="settings"><i class="fas fa-cog"></i> Settings</li>
+        </ul>
+      </aside>
 
-  <section class="request-queue">
-    <h2>Borrow Requests</h2>
-    <ul>
-      <li>
-        The Catcher in the Rye - John Doe
-        <button onclick="approveRequest('The Catcher in the Rye', 'John Doe')">Approve</button>
-      </li>
-      <li>
-        Pride and Prejudice - Jane Smith
-        <button onclick="approveRequest('Pride and Prejudice', 'Jane Smith')">Approve</button>
-      </li>
-    </ul>
-  </section>
+      <!-- Main Content Area -->
+      <main class="main-content">
+        <!-- Manage Books Panel (Default View) -->
+        <section id="manage-books" class="content-panel active">
+          <div class="panel-header">
+            <h2>Manage Books</h2>
+            <button id="add-book-btn" class="primary-btn">
+              <i class="fas fa-plus"></i> Add Book
+            </button>
+          </div>
 
-  <section class="book-search">
-    <h2>Search Books</h2>
-    <input type="text" id="search-bar" placeholder="Enter book title...">
-    <button onclick="searchBooks()">Search</button>
-  </section>
+          <div class="books-table-container">
+            <table class="books-table">
+              <thead>
+                <tr>
+                  <th>Book ID</th>
+                  <th>Title</th>
+                  <th>Author</th>
+                  <th>Category</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>BK001</td>
+                  <td>The Great Gatsby</td>
+                  <td>F. Scott Fitzgerald</td>
+                  <td>Fiction</td>
+                  <td><span class="status-available">Available</span></td>
+                  <td>
+                    <button class="action-btn edit-btn">
+                      <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="action-btn delete-btn">
+                      <i class="fas fa-trash"></i>
+                    </button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>BK002</td>
+                  <td>To Kill a Mockingbird</td>
+                  <td>Harper Lee</td>
+                  <td>Fiction</td>
+                  <td><span class="status-borrowed">Borrowed</span></td>
+                  <td>
+                    <button class="action-btn edit-btn">
+                      <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="action-btn delete-btn">
+                      <i class="fas fa-trash"></i>
+                    </button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>BK003</td>
+                  <td>The Hobbit</td>
+                  <td>J.R.R. Tolkien</td>
+                  <td>Fantasy</td>
+                  <td><span class="status-available">Available</span></td>
+                  <td>
+                    <button class="action-btn edit-btn">
+                      <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="action-btn delete-btn">
+                      <i class="fas fa-trash"></i>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
 
-  <script src="ts/librarian.ts" type="module"></script>
-</body>
+        <!-- Borrowing Requests Panel -->
+        <section id="borrow-requests" class="content-panel">
+          <div class="panel-header">
+            <h2>Borrowing Requests</h2>
+          </div>
+          <div class="requests-container">
+            <table class="requests-table">
+              <thead>
+                <tr>
+                  <th>Request ID</th>
+                  <th>User</th>
+                  <th>Book Title</th>
+                  <th>Request Date</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>REQ001</td>
+                  <td>John Doe</td>
+                  <td>The Catcher in the Rye</td>
+                  <td>Mar 18, 2025</td>
+                  <td><span class="status-pending">Pending</span></td>
+                  <td>
+                    <button class="action-btn approve-btn">
+                      <i class="fas fa-check"></i> Approve
+                    </button>
+                    <button class="action-btn reject-btn">
+                      <i class="fas fa-times"></i> Reject
+                    </button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>REQ002</td>
+                  <td>Jane Smith</td>
+                  <td>Pride and Prejudice</td>
+                  <td>Mar 17, 2025</td>
+                  <td><span class="status-pending">Pending</span></td>
+                  <td>
+                    <button class="action-btn approve-btn">
+                      <i class="fas fa-check"></i> Approve
+                    </button>
+                    <button class="action-btn reject-btn">
+                      <i class="fas fa-times"></i> Reject
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Manage Users Panel -->
+        <section id="manage-users" class="content-panel">
+          <div class="panel-header">
+            <h2>Manage Users</h2>
+            <button class="primary-btn">
+              <i class="fas fa-plus"></i> Add User
+            </button>
+          </div>
+          <div class="users-table-container">
+            <table class="users-table">
+              <thead>
+                <tr>
+                  <th>User ID</th>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Books Borrowed</th>
+                  <th>Join Date</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>USR001</td>
+                  <td>John Doe</td>
+                  <td>john.doe@example.com</td>
+                  <td>1</td>
+                  <td>Jan 15, 2025</td>
+                  <td>
+                    <button class="action-btn edit-btn">
+                      <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="action-btn delete-btn">
+                      <i class="fas fa-trash"></i>
+                    </button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>USR002</td>
+                  <td>Jane Smith</td>
+                  <td>jane.smith@example.com</td>
+                  <td>0</td>
+                  <td>Feb 20, 2025</td>
+                  <td>
+                    <button class="action-btn edit-btn">
+                      <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="action-btn delete-btn">
+                      <i class="fas fa-trash"></i>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+        <!-- Settings Panel -->
+        <section id="settings" class="content-panel">
+          <div class="panel-header">
+            <h2>Settings</h2>
+            <button class="primary-btn save-settings-btn">
+              <i class="fas fa-save"></i> Save Changes
+            </button>
+          </div>
+
+          <div class="settings-container">
+            <!-- Profile Settings -->
+            <div class="settings-card">
+              <h3><i class="fas fa-user-circle"></i> Profile Settings</h3>
+              <form id="profile-settings-form">
+                <div class="form-group">
+                  <label for="librarian-name">Name</label>
+                  <input
+                    type="text"
+                    id="librarian-name"
+                    value="John Librarian"
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="librarian-email">Email</label>
+                  <input
+                    type="email"
+                    id="librarian-email"
+                    value="john.librarian@elibrary.com"
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="librarian-phone">Phone</label>
+                  <input
+                    type="tel"
+                    id="librarian-phone"
+                    value="(555) 123-4567"
+                  />
+                </div>
+                <div class="form-group">
+                  <label>Profile Picture</label>
+                  <div class="profile-picture-container">
+                    <div class="profile-picture">
+                      <img
+                        src="/api/placeholder/150/150"
+                        alt="Profile Picture"
+                      />
+                      <div class="upload-overlay">
+                        <i class="fas fa-camera"></i>
+                      </div>
+                    </div>
+                    <input
+                      type="file"
+                      id="profile-picture-upload"
+                      accept="image/*"
+                      hidden
+                    />
+                    <button
+                      type="button"
+                      class="secondary-btn upload-picture-btn"
+                    >
+                      <i class="fas fa-upload"></i> Upload New Picture
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+
+            <!-- Appearance Settings -->
+            <div class="settings-card">
+              <h3><i class="fas fa-palette"></i> Appearance</h3>
+              <div class="theme-settings">
+                <label>Theme Mode</label>
+                <div class="theme-toggle-container">
+                  <div class="theme-option light-theme">
+                    <div class="theme-preview light-preview">
+                      <div class="preview-header"></div>
+                      <div class="preview-sidebar"></div>
+                      <div class="preview-content"></div>
+                    </div>
+                    <div class="theme-label">
+                      <input
+                        type="radio"
+                        name="theme"
+                        id="light-mode"
+                        value="light"
+                        checked
+                      />
+                      <label for="light-mode">Light</label>
+                    </div>
+                  </div>
+                  <div class="theme-option dark-theme">
+                    <div class="theme-preview dark-preview">
+                      <div class="preview-header"></div>
+                      <div class="preview-sidebar"></div>
+                      <div class="preview-content"></div>
+                    </div>
+                    <div class="theme-label">
+                      <input
+                        type="radio"
+                        name="theme"
+                        id="dark-mode"
+                        value="dark"
+                      />
+                      <label for="dark-mode">Dark</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="font-size">Font Size</label>
+                <div class="slider-container">
+                  <input
+                    type="range"
+                    id="font-size"
+                    min="12"
+                    max="20"
+                    value="16"
+                    class="slider"
+                  />
+                  <span class="slider-value">16px</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Notification Settings -->
+            <div class="settings-card">
+              <h3><i class="fas fa-bell"></i> Notifications</h3>
+              <div class="form-group toggle-switch">
+                <label for="email-notifications">Email Notifications</label>
+                <label class="switch">
+                  <input type="checkbox" id="email-notifications" checked />
+                  <span class="slider round"></span>
+                </label>
+              </div>
+              <div class="form-group toggle-switch">
+                <label for="desktop-notifications">Desktop Notifications</label>
+                <label class="switch">
+                  <input type="checkbox" id="desktop-notifications" checked />
+                  <span class="slider round"></span>
+                </label>
+              </div>
+              <div class="form-group toggle-switch">
+                <label for="overdue-reminders">Overdue Book Reminders</label>
+                <label class="switch">
+                  <input type="checkbox" id="overdue-reminders" checked />
+                  <span class="slider round"></span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <!-- Add Book Dialog -->
+    <div id="add-book-dialog" class="dialog">
+      <div class="dialog-content">
+        <div class="dialog-header">
+          <h3>Add New Book</h3>
+          <button class="close-dialog"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="dialog-body">
+          <form id="add-book-form">
+            <div class="form-group">
+              <label for="book-title">Title</label>
+              <input type="text" id="book-title" required />
+            </div>
+            <div class="form-group">
+              <label for="book-author">Author</label>
+              <input type="text" id="book-author" required />
+            </div>
+            <div class="form-group">
+              <label for="book-isbn">ISBN</label>
+              <input type="text" id="book-isbn" required />
+            </div>
+            <div class="form-group">
+              <label for="book-category">Category</label>
+              <select id="book-category" required>
+                <option value="">Select a category</option>
+                <option value="fiction">Fiction</option>
+                <option value="non-fiction">Non-Fiction</option>
+                <option value="science">Science</option>
+                <option value="history">History</option>
+                <option value="fantasy">Fantasy</option>
+                <option value="biography">Biography</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="book-copies">Number of Copies</label>
+              <input
+                type="number"
+                id="book-copies"
+                min="1"
+                value="1"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="book-description">Description</label>
+              <textarea id="book-description" rows="3"></textarea>
+            </div>
+            <div class="form-actions">
+              <button type="button" class="cancel-btn">Cancel</button>
+              <button type="submit" class="save-btn">Save Book</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <script src="../TS/librarian.js" type="module"></script>
+  </body>
 </html>

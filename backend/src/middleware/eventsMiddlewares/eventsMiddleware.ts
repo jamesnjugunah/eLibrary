@@ -28,7 +28,7 @@ export const eventOwnerGuard = asyncHandler<void, BookRequest>(async (req: BookR
     const event = eventQuery.rows[0];
 
     // Check if the user is the owner of the event
-    if (event.user_id !== req.user.id) {
+    if (event.user_id !== req.user.user_id) {
         res.status(403).json({ message: "Not authorized to edit this event" });
         return;
     }

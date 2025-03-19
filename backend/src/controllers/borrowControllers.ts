@@ -42,7 +42,7 @@ export const getBorrowedBooks = asyncHandler(async (req: UserRequest, res: Respo
 
     // If the user is a Librarian or Admin, they can see all borrowed books
     if (req.user.role_name === "Librarian" || req.user.role_name === "Admin") {
-        borrowedBooks = await pool.query(`SELECT * FROM BorrowedBooks ORDER BY return_date ASC`);
+        borrowedBooks = await pool.query(`SELECT * FROM borrowers ORDER BY return_date ASC`);
     } else {
         // Regular users can only see books they borrowed
         borrowedBooks = await pool.query(`SELECT * FROM borrowers WHERE user_id = $1 ORDER BY return_date ASC`, [req.user.user_id]);
@@ -57,10 +57,10 @@ export const returnBorrowedBook = asyncHandler(async (req: UserRequest, res: Res
         return res.status(401).json({ message: "Not authorized" });
     }
 
-    const { id } = req.params;
+    const { borrower_id } = req.params;
 
     // Check if the book exists and is borrowed
-    const bookQuery = await pool.query(`SELECT * FROM borrowers WHERE id = $1`, [id]);
+    const bookQuery = await pool.query(`SELECT * FROM borrowers WHERE borrower_id = $1`, [borrower_id]);
 
     if (bookQuery.rows.length === 0) {
         return res.status(404).json({ message: "Book not found or not borrowed" });
@@ -78,7 +78,7 @@ export const returnBorrowedBook = asyncHandler(async (req: UserRequest, res: Res
         await pool.query("BEGIN");
 
         // Delete borrow record (return book)
-        await pool.query(`DELETE FROM borrowers WHERE id = $1`, [id]);
+        await pool.query(`DELETE FROM borrowers WHERE borrower_id = $1`, [borrower_id]);
 
         // Update available books count in the `books` table
         await pool.query(`UPDATE books SET available_copies = available_copies + 1 WHERE book_id = $1`, [borrowedBook.book_id]);

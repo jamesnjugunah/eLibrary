@@ -8,6 +8,9 @@ import bookRoutes from "@app/routes/booksRoutes";
 import authRoutes from "@app/routes/authroutes";
 import borrowRoutes from "@app/routes/borrowRoutes";
 
+
+
+
 dotenv.config();
 const app = express();
 
@@ -16,14 +19,16 @@ console.log(Port);
 
 app.use(
   cors({
-    origin: "*",
+    origin: "http://localhost:3500",
     methods: ["GET", "PUT", "POST", "DELETE"],
     credentials: true,
   })
 );
 
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
 
 app.use('/api/auth', authRoutes);
 app.use('/api/user', userRoutes);

@@ -30,10 +30,10 @@ export interface BookCopy {
 export interface BookRequest extends Request {
   user?: {
       role_name: string;
-      id: string;
+      user_id: string;
   };
   event?: {
-      id: string;
+      book_id: string;
       user_id: string;
       title: string;
       location: string;

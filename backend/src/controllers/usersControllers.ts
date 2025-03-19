@@ -16,8 +16,8 @@ export const getUsers = asyncHandler(async (req: Request, res: Response) => {
 //get a user
 export const getUser = asyncHandler(async (req: Request, res: Response) => {
     try {
-        const { id } = req.params;
-        const user = await pool.query('SELECT * FROM users WHERE user_id = $1', [id]);
+        const { user_id } = req.params;
+        const user = await pool.query('SELECT * FROM users WHERE user_id = $1', [user_id]);
         res.json(user.rows[0]);
     } catch (error) {
         console.error(error);
@@ -27,8 +27,8 @@ export const getUser = asyncHandler(async (req: Request, res: Response) => {
 //delete a user
 export const deleteUser =asyncHandler(async (req: Request, res: Response) => {
     try {
-        const { id } = req.params;
-        await pool.query('DELETE FROM users WHERE user_id = $1', [id]);
+        const { user_id } = req.params;
+        await pool.query('DELETE FROM users WHERE user_id = $1', [user_id]);
         res.json('User deleted');
     } catch (error) {
         console.error("User successfully deleted",error);
